@@ -1,125 +1,3 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom/client";
-
-/**
- *
- *
- * <div id="parent">
- *      <div id="child1">
- *          <h1> I'm an h1 tag</h1>
- *          <h2> I'm an h2 tag</h2>
- *      </div>
- *      <div id="child2">
- *          <h1> I'm an h1 tag</h1>
- *          <h2> I'm an h2 tag</h2>
- *      </div>
- * </div>
- *
- *ReactElement(Object) => HTML(Browser Understand)
- */
-
-/*
-const parent = React.createElement("div", { id: "parent" }, [
-  React.createElement("div", { id: "child1" }, [
-    React.createElement("h1", {}, "I,m an h1 tag 🚀"),
-    React.createElement("h2", {}, "I,m an h2 tag"),
-  ]),
-  React.createElement("div", { id: "child2" }, [
-    React.createElement("h1", {}, "I,m an h1 tag"),
-    React.createElement("h2", {}, "I,m an h2 tag"),
-  ]),
-]);
-
-console.log(parent);
-
-const heading = React.createElement(
-  "h1",
-  { id: "heading" },
-  "Hello Word from React!"
-);
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(heading);
-root.render(parent);
-
-React Element
-const jsxHeading = <h1 tabIndex="5">Hello React using JSX 🚀</h1>;
-
-React Functional Component
-const Title = () => (
-  <h1 id="heading" tabIndex="5">
-    Hello React using JSX 🚀
-  </h1>
-);
-
-const HeadingComponent2 = () => {
-  return <h1 className="heading">React Functional Component</h1>;
-};
-
-Both functional definitions are same
-Component Composition
-const HeadingComponent = () => (
-  <div id="container">
-    {jsxHeading}
-    <Title />
-    <h1 className="heading">React Functional Component</h1>
-  </div>
-);
-*/
-
-const Header = () => {
-  return (
-    <div className="header">
-      <div className="logo-container">
-        <img
-          className="logo"
-          src="https://www.logodesign.net/logo/smoking-burger-with-lettuce-3624ld.png?nwm=1&nws=1&industry=food&sf="
-        />
-      </div>
-      <div className="nav-items">
-        <ul>
-          <li>Home</li>
-          <li>About Us</li>
-          <li>Contact Us</li>
-          <li>Cart</li>
-        </ul>
-      </div>
-    </div>
-  );
-};
-
-const styleCard = {
-  backgroundColor: "#f0f0f0",
-};
-
-const ResturantCard = (props) => {
-  const { resData } = props;
-  const {
-    name,
-    cuisines,
-    avgRating,
-    costForTwo,
-    deliveryTime,
-    cloudinaryImageId,
-  } = resData?.data;
-  return (
-    <div className="res-card" style={styleCard}>
-      <img
-        className="res-logo"
-        alt="res-logo"
-        src={
-          "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/" +
-          cloudinaryImageId
-        }
-      />
-      <h3>{name}</h3>
-      <h4>{cuisines.join(", ")}</h4>
-      <h4>{avgRating}</h4>
-      <h4>₹{costForTwo / 100} FOR TWO</h4>
-      <h4>{deliveryTime}</h4>
-    </div>
-  );
-};
-
 const resList = [
   {
     type: "restaurant",
@@ -844,36 +722,12 @@ const resList = [
         iconType: "EMPTY",
       },
       promoted: false,
-      avgRating: "--",
-      totalRatings: 0,
+      avgRating: "1.2",
+      totalRatings: 100,
       new: false,
     },
     subtype: "basic",
   },
 ];
 
-const Body = () => {
-  return (
-    <div className="body-container">
-      <div className="search">Search</div>
-      <div className="res-container">
-        {resList.map((restaurant) => (
-          <ResturantCard resData={restaurant} key={restaurant.data.id} />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const AppLayout = () => {
-  return (
-    <div className="app">
-      <Header />
-      <Body />
-    </div>
-  );
-};
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-
-root.render(<AppLayout />);
+export default resList;
