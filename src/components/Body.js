@@ -1,76 +1,78 @@
 import ResturantCard from "./ResturantCard";
-import resList from "../utils/mockData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
   //Local State Variable
+  const [listOfRestaurants, setListOfRestaurant] = useState([]);
 
-  const [listOfRestaurants, setListOfRestaurant] = useState(resList);
+  const [filteredRestaurant, setFilteredRestaurant] = useState([]);
 
-  /**
-   * Array Destructring
-   *
-   * const arr = useState(resList);
-   * const [listOfRestaurants, setListOfRestaurant] = arr;
-   * or const listOfRestaurants = arr[0];
-   *    const setListOfRestaurant = arr[1];
-   */
+  const [searchText, setSearchText] = useState("");
 
-  //Normal JS Variable
-  // let listOfRestaurantsJS = [
-  //   {
-  //     data: {
-  //       id: "132460",
-  //       name: "KFC",
-  //       cloudinaryImageId: "zw4qx2szsy9kbszk9n3d",
-  //       cuisines: ["South Indian", "Biryani", "North Indian"],
-  //       costForTwo: 20000,
-  //       deliveryTime: 25,
-  //       avgRating: "3.5",
-  //     },
-  //   },
-  //   {
-  //     data: {
-  //       id: "132461",
-  //       name: "Dominos",
-  //       cloudinaryImageId: "zw4qx2szsy9kbszk9n3d",
-  //       cuisines: ["South Indian", "Biryani", "North Indian"],
-  //       costForTwo: 20000,
-  //       deliveryTime: 25,
-  //       avgRating: "4.2",
-  //     },
-  //   },
-  //   {
-  //     data: {
-  //       id: "132462",
-  //       name: "MCD",
-  //       cloudinaryImageId: "zw4qx2szsy9kbszk9n3d",
-  //       cuisines: ["South Indian", "Biryani", "North Indian"],
-  //       costForTwo: 20000,
-  //       deliveryTime: 25,
-  //       avgRating: "4.5",
-  //     },
-  //   },
-  // ];
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  return (
+  const fetchData = async () => {
+    const data = await fetch(
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING"
+    );
+    const json = await data.json();
+    setListOfRestaurant(
+      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+    setFilteredRestaurant(
+      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+  };
+
+  //Conditional Rendering
+  // if (listOfRestaurants.length === 0) {
+  //   return <Shimmer />;
+  // }
+
+  return listOfRestaurants.length === 0 ? (
+    <Shimmer />
+  ) : (
     <div className="body-container">
       <div className="filter">
+        <div className="search">
+          <input
+            type="text"
+            className="search-box"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+          />
+          <button
+            onClick={() => {
+              //Filter the restaurant cards and update the UI
+              const filteredRestaurant = listOfRestaurants.filter((res) =>
+                res.info.name.toLowerCase().includes(searchText.toLowerCase())
+              );
+              setFilteredRestaurant(filteredRestaurant);
+            }}
+          >
+            Search
+          </button>
+        </div>
         <button
           className="filter-btn"
           onClick={() => {
             const filteredList = listOfRestaurants.filter(
-              (res) => res.data.avgRating >= 4
+              (res) => res.info.avgRating >= 4
             );
-            setListOfRestaurant(filteredList);
+            setFilteredRestaurant(filteredList);
           }}
         >
           Top rated Restaurants
         </button>
       </div>
       <div className="res-container">
-        {listOfRestaurants.map((restaurant) => (
-          <ResturantCard resData={restaurant} key={restaurant.data.id} />
+        {filteredRestaurant.map((restaurant) => (
+          <ResturantCard resData={restaurant} key={restaurant.info.id} />
         ))}
       </div>
     </div>
