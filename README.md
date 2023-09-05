@@ -56,3 +56,8 @@
 
 - useState() - Superpowerful State Varibales in React
 - useEffect()
+
+# 2 Types of Routing in Web Apps
+
+- Client Side Routing - Client-side routing is the same as server-side routing, but it's ran in the browser. Client-side routing has become more popular due to the popularity of creating single-page applications (SPAs).
+- Server Side Routing - Server-side routing is the traditional way of routing. When a user navigates to a new page, the old page is discarded and the HTML of the new page is loaded. This requires the server to keep making requests to rerender the application.
