@@ -4,14 +4,16 @@ import { useContext } from "react";
 
 const ResturantCard = (props) => {
   const { resData } = props;
+  console.log(resData);
   const { name, cuisines, avgRating, costForTwo, cloudinaryImageId } =
     resData?.info;
   const { deliveryTime } = resData?.info?.sla;
 
-  const {loggedInUser} = useContext(UserContext);
+  const { loggedInUser } = useContext(UserContext);
   return (
     <div
-      className="m-4 p-4 w-[250px] rounded-lg"
+      data-testid="resCard"
+      className="m-3 p-4 w-[255px] rounded-lg"
       style={{
         backgroundColor: "#f0f0f0",
       }}
@@ -31,16 +33,17 @@ const ResturantCard = (props) => {
   );
 };
 
-
-export const withOpenLabel = (ResturantCard) =>{
-  return (props) =>{
+export const withOpenLabel = (ResturantCard) => {
+  return (props) => {
     return (
       <div>
-        <label className="absolute p-1 m-2 text-white bg-black rounded-md left-2">Open</label>
-        <ResturantCard {...props}/>
+        <label className="absolute p-1 m-2 text-white bg-black rounded-md left-2">
+          Open
+        </label>
+        <ResturantCard {...props} />
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 export default ResturantCard;
